@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from '../i18n/I18nContext';
 import { useSettings } from '../context/SettingsContext';
@@ -35,6 +35,11 @@ export default function RegisterPage() {
   const { t } = useTranslation();
   const { eventYear, minAge, maxAge } = useSettings();
   const fireworksRef = useRef(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
 
   return (
     <>
@@ -43,18 +48,29 @@ export default function RegisterPage() {
       <div style={{ position: 'relative', zIndex: 1 }}>
         <nav className="ys-navbar">
           <div className="ys-nav-container">
-            <a href="#top" className="ys-nav-brand">
+            <a href="#top" className="ys-nav-brand" onClick={closeMenu}>
               <img src="/img/ys-logo.png" alt="Logo" className="ys-nav-logo-img" />
               <span>{t('nav-brand', { year: eventYear })}</span>
             </a>
-            <ul className="ys-nav-links">
+            <button
+              type="button"
+              className={`ys-nav-toggle ${menuOpen ? 'open' : ''}`}
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-label="Toggle navigation"
+              aria-expanded={menuOpen}
+            >
+              <span className="ys-hamburger-bar" />
+              <span className="ys-hamburger-bar" />
+              <span className="ys-hamburger-bar" />
+            </button>
+            <ul className={`ys-nav-links ${menuOpen ? 'open' : ''}`} onClick={closeMenu}>
               <li><a href="#top" className="ys-nav-link">{t('nav-home')}</a></li>
               <li><a href="#ys-mission" className="ys-nav-link">{t('nav-about')}</a></li>
               <li><a href="#ys-features" className="ys-nav-link">{t('nav-features')}</a></li>
               <li><a href="#ys-faq" className="ys-nav-link">FAQ</a></li>
               <li><a href="#regForm" className="ys-nav-register-btn">{t('nav-register')}</a></li>
               <li><a href="/admin/login" className="ys-nav-link">{t('nav-admin')}</a></li>
-              <li><LanguageSwitcher /></li>
+              <li onClick={(e) => e.stopPropagation()}><LanguageSwitcher /></li>
             </ul>
           </div>
         </nav>
