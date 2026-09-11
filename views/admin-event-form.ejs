@@ -1,0 +1,142 @@
+<% var editMode = typeof isEdit !== 'undefined' && isEdit; %>
+<% var pageTitle = (editMode ? 'ઇવેન્ટ સંપાદિત કરો' : 'નવો ઇવેન્ટ બનાવો') + ' - એડમિન'; %>
+<%- include('partials/header') %>
+
+<div class="container fade-in-up">
+  <div class="card admin-form-card">
+    <h1><%= editMode ? 'ઇવેન્ટ સંપાદિત કરો' : 'નવો ઇવેન્ટ બનાવો' %></h1>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert alert-error shake"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="<%= editMode ? '/admin/events/' + event.id + '/edit' : '/admin/events/create' %>">
+      <div class="field">
+        <label for="eventName">ઇવેન્ટનું નામ <span class="req">*</span></label>
+        <input
+          type="text"
+          id="eventName"
+          name="eventName"
+          value="<%= event && event.eventName ? event.eventName : '' %>"
+          placeholder="દા.ત. વાર્ષિક સંમેલન ૨૦૨૬"
+          required
+        >
+        <p class="help-text">ઇવેન્ટને યાદગાર નામ આપો</p>
+      </div>
+
+      <div class="field">
+        <label for="eventDate">ઇવેન્ટની તારીખ <span class="req">*</span></label>
+        <input
+          type="date"
+          id="eventDate"
+          name="eventDate"
+          value="<%= (event && event.eventDate) || today %>"
+          required
+        >
+        <p class="help-text">ઇવેન્ટ ક્યારે યોજાશે તે તારીખ પસંદ કરો</p>
+      </div>
+
+      <div class="field">
+        <label for="eventTime">ઇવેન્ટનો સમય</label>
+        <input
+          type="time"
+          id="eventTime"
+          name="eventTime"
+          value="<%= event && event.eventTime ? event.eventTime : '' %>"
+        >
+        <p class="help-text">ઇવેન્ટ ક્યારે શરૂ થશે તે સમય (વૈકલ્પિક)</p>
+      </div>
+
+      <div class="field">
+        <label for="location">સ્થળ</label>
+        <input
+          type="text"
+          id="location"
+          name="location"
+          value="<%= event && event.location ? event.location : '' %>"
+          placeholder="દા.ત. કન્વેન્શન સેન્ટર, નરોડા"
+        >
+        <p class="help-text">ઇવેન્ટ ક્યાં યોજાશે?</p>
+      </div>
+
+      <div class="field">
+        <label for="maxCapacity">મહત્તમ ક્ષમતા</label>
+        <input
+          type="number"
+          id="maxCapacity"
+          name="maxCapacity"
+          value="<%= event && event.maxCapacity ? event.maxCapacity : '' %>"
+          placeholder="દા.ત. 500"
+          min="1"
+        >
+        <p class="help-text">મહત્તમ સહભાગીઓની સંખ્યા (વૈકલ્પિક)</p>
+      </div>
+
+      <div class="field">
+        <label for="eventDescription">વર્ણન</label>
+        <textarea
+          id="eventDescription"
+          name="eventDescription"
+          placeholder="ઇવેન્ટ વિશે વધારાની વિગતો ઉમેરો..."
+        ><%= event && event.eventDescription ? event.eventDescription : '' %></textarea>
+        <p class="help-text">વૈકલ્પિક: વિગતો, કાર્યક્રમ અથવા નોંધ ઉમેરો</p>
+      </div>
+
+      <h3 class="section-title" style="margin-top:8px;">📞 સંપર્ક વ્યક્તિ</h3>
+      <div class="form-grid">
+        <div class="field">
+          <label for="contact1Name">સંપર્ક વ્યક્તિ ૧ - નામ</label>
+          <input
+            type="text"
+            id="contact1Name"
+            name="contact1Name"
+            value="<%= event && event.contact1Name ? event.contact1Name : '' %>"
+            placeholder="દા.ત. રાજ કોઠારી"
+          >
+        </div>
+        <div class="field">
+          <label for="contact1Mobile">સંપર્ક વ્યક્તિ ૧ - મોબાઈલ નંબર</label>
+          <input
+            type="tel"
+            id="contact1Mobile"
+            name="contact1Mobile"
+            inputmode="numeric"
+            maxlength="15"
+            value="<%= event && event.contact1Mobile ? event.contact1Mobile : '' %>"
+            placeholder="દા.ત. +91 94083 33294"
+          >
+        </div>
+        <div class="field">
+          <label for="contact2Name">સંપર્ક વ્યક્તિ ૨ - નામ</label>
+          <input
+            type="text"
+            id="contact2Name"
+            name="contact2Name"
+            value="<%= event && event.contact2Name ? event.contact2Name : '' %>"
+            placeholder="દા.ત. મયુર ચિરુત્કર"
+          >
+        </div>
+        <div class="field">
+          <label for="contact2Mobile">સંપર્ક વ્યક્તિ ૨ - મોબાઈલ નંબર</label>
+          <input
+            type="tel"
+            id="contact2Mobile"
+            name="contact2Mobile"
+            inputmode="numeric"
+            maxlength="15"
+            value="<%= event && event.contact2Mobile ? event.contact2Mobile : '' %>"
+            placeholder="દા.ત. +91 96620 71974"
+          >
+        </div>
+      </div>
+      <p class="help-text" style="margin-top:-8px;">બંને સંપર્ક વ્યક્તિ વૈકલ્પિક છે — રજિસ્ટ્રેશન પેજ પર "ઇવેન્ટ વિગતો" સેક્શનમાં બતાવવામાં આવશે.</p>
+
+      <div class="actions-row">
+        <button type="submit" class="btn btn-glow"><%= editMode ? '✓ ફેરફારો સાચવો' : '✓ ઇવેન્ટ બનાવો' %></button>
+        <a href="<%= editMode ? '/admin/events/' + event.id : '/admin/events' %>" class="btn btn-secondary">રદ કરો</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

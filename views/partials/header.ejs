@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'QR Registration App' %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Gujarati:wght@300;400;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700;800&family=Yatra+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+<!-- Slim organisation banner -->
+<div class="top-org-bar">રાષ્ટ્રીય સ્વયંસેવક સંઘ</div>
+
+<!-- Ambient particle background -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- Audio is only loaded on the register page (see register.ejs) -->
+
+<% if (typeof bodyClass !== 'undefined' && (bodyClass === 'page-register' || bodyClass === 'page-admin-login')) { %>
+  <div class="page-bg-image" aria-hidden="true"></div>
+  <div class="page-bg-overlay" aria-hidden="true"></div>
+<% } %>
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+<div class="bg-orb bg-orb-3"></div>
+
+<div class="topbar">
+  <a href="/register" class="brand"><span class="brand-dot"></span>યુવા સંગમ ૨૦૨૬ (રાષ્ટ્રીય સ્વયંસેવક સંઘ - નરોડા ભાગ)</a>
+  <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
+    <button type="button" class="nav-toggle" id="navToggle" aria-label="મેનૂ ખોલો" aria-expanded="false">☰</button>
+  <% } %>
+  <nav id="topbarNav" class="<%= (typeof isAdmin !== 'undefined' && isAdmin) ? 'has-toggle' : '' %>">
+    <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
+      <a href="/admin/dashboard">ડેશબોર્ડ</a>
+      <% if (typeof adminRole !== 'undefined' && adminRole === 'main') { %>
+        <a href="/admin/events">ઇવેન્ટ્સ</a>
+        <a href="/admin/event-admins">ઇવેન્ટ એડમિન</a>
+        <a href="/admin/audit-log">ઓડિટ લોગ</a>
+      <% } else { %>
+        <a href="/admin/events">મારો ઇવેન્ટ</a>
+      <% } %>
+      <form action="/admin/logout" method="POST" style="display:inline">
+        <button type="submit">લોગઆઉટ</button>
+      </form>
+    <% } else { %>
+      <a href="/register">નોંધણી કરો</a>
+      <a href="/admin/login">એડમિન લોગિન</a>
+    <% } %>
+  </nav>
+</div>
+<script>
+  (function () {
+    var toggle = document.getElementById('navToggle');
+    var nav = document.getElementById('topbarNav');
+    if (!toggle || !nav) return;
+    toggle.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.textContent = open ? '✕' : '☰';
+    });
+    // Close the menu automatically once a link/button inside it is used.
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') {
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.textContent = '☰';
+      }
+    });
+  })();
+</script>

@@ -1,0 +1,177 @@
+<% var pageTitle = event.event_name + ' - ઇવેન્ટ વિગતો'; %>
+<%
+  var attQuery = 'aLocation=' + encodeURIComponent(attendanceFilters.location)
+    + '&aEducation=' + encodeURIComponent(attendanceFilters.education)
+    + '&aGender=' + encodeURIComponent(attendanceFilters.gender)
+    + '&checkedInFrom=' + encodeURIComponent(attendanceFilters.checkedInFrom)
+    + '&checkedInTo=' + encodeURIComponent(attendanceFilters.checkedInTo)
+    + '&checkedInBy=' + encodeURIComponent(attendanceFilters.checkedInBy);
+%>
+<%- include('partials/header') %>
+
+<div class="wide-container fade-in-up">
+  <div class="event-hero">
+    <h1><%= event.event_name %></h1>
+    <p>📊 હાજરી અહેવાલ</p>
+  </div>
+
+  <div class="info-card">
+    <p><strong>📅 તારીખ:</strong> <%= formatEventDateGu(event.event_date) %></p>
+    <% if (event.event_time) { %>
+      <p><strong>🕒 સમય:</strong> <%= formatEventTimeGu(event.event_time) %></p>
+    <% } %>
+    <% if (event.location) { %>
+      <p><strong>📍 સ્થળ:</strong> <%= event.location %></p>
+    <% } %>
+    <% if (event.contact1_name || event.contact2_name) { %>
+      <p><strong>📞 સંપર્ક વ્યક્તિ:</strong>
+        <% if (event.contact1_name) { %><%= event.contact1_name %><%= event.contact1_mobile ? ' — ' + event.contact1_mobile : '' %><% } %>
+        <% if (event.contact1_name && event.contact2_name) { %> &nbsp;|&nbsp; <% } %>
+        <% if (event.contact2_name) { %><%= event.contact2_name %><%= event.contact2_mobile ? ' — ' + event.contact2_mobile : '' %><% } %>
+      </p>
+    <% } %>
+    <p>
+      <strong>સ્થિતિ:</strong>
+      <span class="status-badge status-<%= event.status %>">
+        <%= event.status === 'upcoming' ? 'આગામી' : event.status === 'ongoing' ? 'ચાલુ છે' : event.status === 'completed' ? 'પૂર્ણ' : (event.status || 'આગામી').toUpperCase() %>
+      </span>
+    </p>
+    <% if (event.event_description) { %>
+      <p><strong>વર્ણન:</strong> <%= event.event_description %></p>
+    <% } %>
+  </div>
+<div class="actions-row" style="margin-top:24px; padding-top:20px; border-top:1px solid var(--border);">
+    <a href="/admin/checkin?eventId=<%= event.id %>" class="btn">➕ ચેક-ઇન ચાલુ રાખો</a>
+    <a href="/admin/events" class="btn btn-secondary">← ઇવેન્ટ્સ પર પાછા જાઓ</a>
+  </div>
+  <div class="stat-cards">
+    <div class="stat-card" style="--d:1;">
+      <div class="num"><%= stats.total_checked_in %></div>
+      <div class="lbl">ચેક-ઇન થયેલા વપરાશકર્તાઓ</div>
+    </div>
+    <div class="stat-card" style="--d:2;">
+      <div class="num"><%= stats.unique_admins %></div>
+      <div class="lbl">ચેક-ઇન કરનાર એડમિન</div>
+    </div>
+    <% if (stats.first_checkin) { %>
+      <div class="stat-card" style="--d:3;">
+        <div class="num" style="font-size:1.3rem;"><%= formatTimeGu(stats.first_checkin) %></div>
+        <div class="lbl">પ્રથમ ચેક-ઇન</div>
+      </div>
+      <div class="stat-card" style="--d:4;">
+        <div class="num" style="font-size:1.3rem;"><%= formatTimeGu(stats.last_checkin) %></div>
+        <div class="lbl">છેલ્લું ચેક-ઇન</div>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="card" style="margin-top:24px; padding:18px 20px;">
+    <form method="GET" action="/admin/events/<%= event.id %>" class="form-grid" style="margin-bottom:0;">
+      <div class="field">
+        <label for="af-location">એરિયા</label>
+        <select id="af-location" name="aLocation">
+          <option value="">બધા</option>
+          <% filterOptions.locations.forEach(function(opt) { %>
+            <option value="<%= opt %>" <%= attendanceFilters.location === opt ? 'selected' : '' %>><%= opt %></option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="field">
+        <label for="af-education">અભ્યાસ</label>
+        <input type="text" id="af-education" name="aEducation" value="<%= attendanceFilters.education %>" placeholder="દા.ત. B.Tech" />
+      </div>
+      <div class="field">
+        <label for="af-gender">લિંગ</label>
+        <select id="af-gender" name="aGender">
+          <option value="">બધા</option>
+          <% filterOptions.genders.forEach(function(opt) { %>
+            <option value="<%= opt %>" <%= attendanceFilters.gender === opt ? 'selected' : '' %>><%= opt %></option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="field">
+        <label for="af-checkedInBy">એડમિન દ્વારા</label>
+        <input type="text" id="af-checkedInBy" name="checkedInBy" value="<%= attendanceFilters.checkedInBy %>" placeholder="એડમિન વપરાશકર્તા નામ" />
+      </div>
+      <div class="field">
+        <label for="af-from">ચેક-ઇન તારીખ (થી)</label>
+        <input type="date" id="af-from" name="checkedInFrom" value="<%= attendanceFilters.checkedInFrom %>" />
+      </div>
+      <div class="field">
+        <label for="af-to">ચેક-ઇન તારીખ (સુધી)</label>
+        <input type="date" id="af-to" name="checkedInTo" value="<%= attendanceFilters.checkedInTo %>" />
+      </div>
+      <div class="field full actions-row" style="margin:0;">
+        <button type="submit" class="btn">ફિલ્ટર લાગુ કરો</button>
+        <a href="/admin/events/<%= event.id %>" class="btn btn-secondary">સાફ કરો</a>
+      </div>
+    </form>
+  </div>
+
+  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin:24px 0 8px;">
+    <h2 style="margin:0;">✓ હાજરી યાદી (<%= attendance.length %>)</h2>
+    <div class="actions-row" style="margin:0;">
+      <% if (adminRole === 'main') { %>
+        <a href="/admin/events/<%= event.id %>/edit" class="btn btn-secondary">✏️ ફેરફાર કરો</a>
+        <a href="/admin/events/<%= event.id %>/email" class="btn">📧 ઇમેલ મોકલો</a>
+      <% } %>
+      <% if (attendance.length > 0) { %>
+        <a href="/admin/events/<%= event.id %>/export?<%= attQuery %>" class="btn btn-secondary btn-sm">⬇ એક્સેલ</a>
+        <a href="/admin/events/<%= event.id %>/export?format=csv&<%= attQuery %>" class="btn btn-secondary btn-sm">⬇ CSV</a>
+      <% } %>
+    </div>
+  </div>
+
+  <% if (attendance.length === 0) { %>
+    <div class="empty-state card">
+      <p>કોઈ હાજરી રેકોર્ડ મળ્યો નહીં.</p>
+    </div>
+  <% } else { %>
+    <div class="table-wrap">
+      <table class="records-table">
+        <thead>
+          <tr>
+            <th>નામ</th>
+            <th>જન્મ તારીખ</th>
+            <th>લિંગ</th>
+            <th>ફોન</th>
+            <th>ઈમેલ</th>
+            <th>એરિયા</th>
+            <th>પિનકોડ</th>
+            <th>સરનામું</th>
+            <th>અભ્યાસ</th>
+            <th>વ્યવસાય</th>
+            <th>નોંધ</th>
+            <th>તાપમાન</th>
+            <th>ચેક-ઇન સમય</th>
+            <th>એડમિન દ્વારા</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% attendance.forEach(function(person) { %>
+            <tr>
+              <td data-label="નામ"><strong><%= person.name %></strong></td>
+              <td data-label="જન્મ તારીખ"><%= person.dob || '—' %></td>
+              <td data-label="લિંગ"><%= person.gender || '—' %></td>
+              <td data-label="ફોન"><%= person.phone %></td>
+              <td data-label="ઈમેલ"><%= person.email || '—' %></td>
+              <td data-label="એરિયા"><%= person.location === 'અન્ય' ? (person.location_other || person.location) : (person.location || '—') %></td>
+              <td data-label="પિનકોડ"><%= person.pincode || '—' %></td>
+              <td data-label="સરનામું"><%= person.address || '—' %></td>
+              <td data-label="અભ્યાસ"><%= person.education || '—' %></td>
+              <td data-label="વ્યવસાય"><%= person.occupation || '—' %></td>
+              <td data-label="નોંધ"><%= person.record_notes || '—' %></td>
+              <td data-label="તાપમાન"><%= person.temperature || '—' %></td>
+              <td data-label="ચેક-ઇન સમય"><%= formatDateTimeGu(person.checked_in_at) %></td>
+              <td data-label="એડમિન દ્વારા"><%= person.checked_in_by %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+
+  
+</div>
+
+<%- include('partials/footer') %>

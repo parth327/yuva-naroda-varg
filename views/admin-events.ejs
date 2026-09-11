@@ -1,0 +1,70 @@
+<% var pageTitle = 'ઇવેન્ટ્સ - એડમિન'; %>
+<%- include('partials/header') %>
+
+<div class="wide-container fade-in-up">
+  <% if (typeof query !== 'undefined' && query && query.deleted) { %>
+    <div class="alert alert-success" style="margin-bottom:16px;">✅ ઇવેન્ટ સફળતાપૂર્વક ડિલીટ કરવામાં આવ્યો.</div>
+  <% } %>
+  <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
+    <div>
+      <h1 style="margin-bottom:4px;">ઇવેન્ટ્સ</h1>
+      <p class="subtitle" style="margin-bottom:0;">લોગિન થયેલ છે: <strong><%= adminUsername %></strong></p>
+    </div>
+    <div class="actions-row" style="margin:0;">
+  <% if (adminRole === 'main') { %>
+    <a href="/admin/events/export" class="btn btn-secondary">⬇ એક્સેલમાં એક્સપોર્ટ કરો</a>
+    <a href="/admin/events/create" class="btn btn-glow">+ નવો ઇવેન્ટ</a>
+  <% } %>
+    </div>
+  </div>
+
+  <% if (events.length === 0) { %>
+    <div class="empty-state card">
+      <p>હજુ સુધી કોઈ ઇવેન્ટ બનાવવામાં આવ્યો નથી. <a href="/admin/events/create">હમણાં એક બનાવો</a></p>
+    </div>
+  <% } else { %>
+    <% events.forEach(function(event) { %>
+      <div class="event-card">
+        <div class="event-card-top">
+          <div style="flex:1;">
+            <h3><%= event.event_name %></h3>
+            <p class="event-date">📅 <%= formatEventDateGu(event.event_date) %><% if (event.event_time) { %> • 🕒 <%= formatEventTimeGu(event.event_time) %><% } %></p>
+            <p class="event-meta">📍 <strong>સ્થળ:</strong> <%= event.location || 'લાગુ પડતું નથી' %></p>
+            <% if (event.contact1_name || event.contact2_name) { %>
+              <p class="event-meta">📞 <strong>સંપર્ક:</strong>
+                <% if (event.contact1_name) { %><%= event.contact1_name %><%= event.contact1_mobile ? ' (' + event.contact1_mobile + ')' : '' %><% } %>
+                <% if (event.contact1_name && event.contact2_name) { %> • <% } %>
+                <% if (event.contact2_name) { %><%= event.contact2_name %><%= event.contact2_mobile ? ' (' + event.contact2_mobile + ')' : '' %><% } %>
+              </p>
+            <% } %>
+            <% if (event.max_capacity) { %>
+              <p class="event-meta">👥 <strong>ક્ષમતા:</strong> <%= event.max_capacity %> વપરાશકર્તાઓ</p>
+            <% } %>
+            <% if (event.event_description) { %>
+              <p class="event-desc"><%= event.event_description %></p>
+            <% } %>
+          </div>
+          <span class="status-badge status-<%= event.status %>">
+            <%= event.status === 'upcoming' ? 'આગામી' : event.status === 'ongoing' ? 'ચાલુ છે' : event.status === 'completed' ? 'પૂર્ણ' : (event.status || 'આગામી').toUpperCase() %>
+          </span>
+        </div>
+        <div class="event-actions">
+          <a href="/admin/events/<%= event.id %>" class="btn btn-secondary btn-sm">વિગતો જુઓ</a>
+          <a href="/admin/checkin?eventId=<%= event.id %>" class="btn btn-sm">ચેક-ઇન કરો</a>
+          <% if (adminRole === 'main') { %>
+            <a href="/admin/events/<%= event.id %>/edit" class="btn btn-secondary btn-sm">✏️ ફેરફાર કરો</a>
+            <form action="/admin/events/<%= event.id %>/delete" method="POST" style="display:inline;" onsubmit="return confirm('શું તમે ખરેખર આ ઇવેન્ટ ડિલીટ કરવા માંગો છો? આ ક્રિયા પૂર્વવત્ કરી શકાશે નહીં.');">
+              <button type="submit" class="btn btn-sm" style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;border:none;">🗑 ડિલીટ</button>
+            </form>
+          <% } %>
+        </div>
+      </div>
+    <% }); %>
+  <% } %>
+
+  <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border);">
+    <a href="/admin/dashboard" class="btn btn-secondary">← ડેશબોર્ડ પર પાછા જાઓ</a>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
