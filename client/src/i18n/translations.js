@@ -45,7 +45,7 @@ export const translations = {
     'sec-2-title': 'સંપર્ક વિગતો',
     'sec-3-title': 'સરનામું',
     'sec-4-title': 'રુચિ અને જોડાણ',
-    'sec-5-title': 'તમારો પ્રશ્ન',
+    'sec-5-title': 'સમીક્ષા',
 
     'lbl-name': '👤 પૂરું નામ',
     'ph-name': 'દા.ત. રમેશ પટેલ',
@@ -81,8 +81,6 @@ export const translations = {
     'lbl-joinMedium': '🤝 કયા માધ્યમથી યુવા પ્રારંભિક વર્ગ માં જોડાવાના છો?',
     'lbl-joinMedium-other': '✍️ અન્ય',
     'ph-joinMedium-other': 'કૃપા કરીને જણાવો',
-
-    'ph-rss-question': 'તમારો પ્રશ્ન અહીં લખો... (વૈકલ્પિક)',
 
     'btn-submit': 'સબમિટ કરો',
     'btn-submitting': 'મોકલી રહ્યા છીએ...',
@@ -181,7 +179,7 @@ export const translations = {
     'sec-2-title': 'Contact Details',
     'sec-3-title': 'Address',
     'sec-4-title': 'Interest & Joining',
-    'sec-5-title': 'Your Question',
+    'sec-5-title': 'Review',
 
     'lbl-name': '👤 Full Name',
     'ph-name': 'e.g. Ramesh Patel',
@@ -217,8 +215,6 @@ export const translations = {
     'lbl-joinMedium': '🤝 Through which medium will you join Yuva Prarambhik Varg?',
     'lbl-joinMedium-other': '✍️ Other',
     'ph-joinMedium-other': 'Please specify',
-
-    'ph-rss-question': 'Write your question here... (optional)',
 
     'btn-submit': 'Submit',
     'btn-submitting': 'Submitting...',

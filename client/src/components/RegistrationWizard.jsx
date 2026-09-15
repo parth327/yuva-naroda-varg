@@ -13,7 +13,7 @@ const STORAGE_KEY = 'ys-register-draft-v1';
 const EMPTY_FORM = {
   name: '', age: '', education: '', phone: '', whatsapp: '', email: '',
   location: '', locationOther: '', pincode: '', houseNumber: '', society: '', landmark: '',
-  interest: '', interestOther: '', joinMedium: '', joinMediumOther: '', notes: '',
+  interest: '', interestOther: '', joinMedium: '', joinMediumOther: '',
 };
 
 const STEP_FIELDS = [
@@ -21,7 +21,7 @@ const STEP_FIELDS = [
   ['phone', 'whatsapp', 'email'],
   ['location', 'locationOther', 'pincode', 'houseNumber', 'society', 'landmark'],
   ['interest', 'interestOther', 'joinMedium', 'joinMediumOther'],
-  ['notes'],
+  [],
 ];
 
 const REQUIRED = ['name', 'age', 'education', 'phone', 'email', 'location', 'pincode', 'interest', 'joinMedium'];
@@ -343,11 +343,6 @@ export default function RegistrationWizard() {
 
             {step === 4 && (
               <div className="form-grid">
-                <div className="field full">
-                  <textarea rows={3} maxLength={500} value={form.notes} onChange={(e) => update('notes', e.target.value)} placeholder={t('ph-rss-question')} />
-                  <small className="field-hint">{form.notes.length}/500</small>
-                </div>
-
                 <div className="field full review-box">
                   <div className="review-title">{lang === 'en' ? 'Please review before submitting' : 'સબમિટ કરતા પહેલા ચકાસો'}</div>
                   <div className="review-grid">
