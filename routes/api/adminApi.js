@@ -168,7 +168,7 @@ router.put('/records/:id', requireMainAdminApi, (req, res, next) => {
       const {
         name, dob, gender, phone, whatsapp, email, location, locationOther, address,
         houseNumber, society, landmark, education, occupation, notes, pincode,
-        interest, joinMedium, joinMediumOther, age,
+        interest, interestOther, joinMedium, joinMediumOther, age,
       } = req.body;
 
       const settings = await db.getSettings();
@@ -204,6 +204,7 @@ router.put('/records/:id', requireMainAdminApi, (req, res, next) => {
         education: (education || '').trim(),
         occupation: (occupation || '').trim(),
         interest: (interest || '').trim(),
+        interestOther: interest === 'અન્ય' ? (interestOther || '').trim() : '',
         joinMedium: (joinMedium || '').trim(),
         joinMediumOther: joinMedium === 'અન્ય' ? (joinMediumOther || '').trim() : '',
         age: ageNum,
@@ -272,7 +273,7 @@ router.get('/export', requireMainAdminApi, async (req, res, next) => {
       landmark: r.landmark,
       address: r.address,
       education: r.education,
-      interest: r.interest,
+      interest: r.interest === 'અન્ય' ? (r.interestOther || r.interest) : r.interest,
       joinMedium: r.joinMedium === 'અન્ય' ? (r.joinMediumOther || r.joinMedium) : r.joinMedium,
       occupation: r.occupation,
       notes: r.notes,

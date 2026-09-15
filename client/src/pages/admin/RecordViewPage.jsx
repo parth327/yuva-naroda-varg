@@ -41,7 +41,7 @@ export default function RecordViewPage() {
     [t('lbl-society'), record.society],
     [t('lbl-landmark'), record.landmark],
     [t('lbl-education'), record.education],
-    [t('lbl-interest'), record.interest],
+    [t('lbl-interest'), record.interest === 'અન્ય' ? record.interestOther : record.interest],
     ['Notes', record.notes],
   ];
 

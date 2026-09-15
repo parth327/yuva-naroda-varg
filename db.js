@@ -75,6 +75,7 @@ async function init() {
     await runQuery(`ALTER TABLE records ADD COLUMN IF NOT EXISTS society TEXT;`);
     await runQuery(`ALTER TABLE records ADD COLUMN IF NOT EXISTS landmark TEXT;`);
     await runQuery(`ALTER TABLE records ADD COLUMN IF NOT EXISTS interest TEXT;`);
+    await runQuery(`ALTER TABLE records ADD COLUMN IF NOT EXISTS interest_other TEXT;`);
     await runQuery(`ALTER TABLE records ADD COLUMN IF NOT EXISTS join_medium TEXT;`);
     await runQuery(`ALTER TABLE records ADD COLUMN IF NOT EXISTS join_medium_other TEXT;`);
     await runQuery(`ALTER TABLE records ADD COLUMN IF NOT EXISTS age INTEGER;`);
@@ -212,6 +213,7 @@ function rowToRecord(row) {
     education: row.education || '',
     occupation: row.occupation || '',
     interest: row.interest || '',
+    interestOther: row.interest_other || '',
     joinMedium: row.join_medium || '',
     joinMediumOther: row.join_medium_other || '',
     age: row.age || '',
@@ -248,8 +250,8 @@ async function getQr(id) {
 async function addRecord(record) {
   await runQuery(
     `INSERT INTO records
-      (id, name, dob, gender, phone, whatsapp, email, location, location_other, house_number, society, landmark, address, education, occupation, interest, join_medium, join_medium_other, age, notes, photo_data, photo_mime, qr_data, created_at, pincode)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)`,
+      (id, name, dob, gender, phone, whatsapp, email, location, location_other, house_number, society, landmark, address, education, occupation, interest, interest_other, join_medium, join_medium_other, age, notes, photo_data, photo_mime, qr_data, created_at, pincode)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)`,
     [
       record.id,
       record.name,
@@ -267,6 +269,7 @@ async function addRecord(record) {
       record.education || null,
       record.occupation || null,
       record.interest || null,
+      record.interestOther || null,
       record.joinMedium || null,
       record.joinMediumOther || null,
       record.age || null,
@@ -290,17 +293,17 @@ async function updateRecord(id, record) {
          name = $1, dob = $2, gender = $3, phone = $4, whatsapp = $5, email = $6,
          location = $7, location_other = $8, house_number = $9, society = $10,
          landmark = $11, address = $12, education = $13, occupation = $14,
-         interest = $15, join_medium = $16, join_medium_other = $17, age = $18,
-         notes = $19, pincode = $20, photo_data = $21, photo_mime = $22
-       WHERE id = $23`,
+         interest = $15, interest_other = $16, join_medium = $17, join_medium_other = $18, age = $19,
+         notes = $20, pincode = $21, photo_data = $22, photo_mime = $23
+       WHERE id = $24`,
       [
         record.name, record.dob || null, record.gender || null, record.phone,
         record.whatsapp || null, record.email || null, record.location,
         record.locationOther || null, record.houseNumber || null, record.society || null,
         record.landmark || null, record.address || null, record.education || null,
-        record.occupation || null, record.interest || null, record.joinMedium || null,
-        record.joinMediumOther || null, record.age || null, record.notes || null,
-        record.pincode || null, record.photoData, record.photoMime, id,
+        record.occupation || null, record.interest || null, record.interestOther || null,
+        record.joinMedium || null, record.joinMediumOther || null, record.age || null,
+        record.notes || null, record.pincode || null, record.photoData, record.photoMime, id,
       ]
     );
   } else {
@@ -309,17 +312,17 @@ async function updateRecord(id, record) {
          name = $1, dob = $2, gender = $3, phone = $4, whatsapp = $5, email = $6,
          location = $7, location_other = $8, house_number = $9, society = $10,
          landmark = $11, address = $12, education = $13, occupation = $14,
-         interest = $15, join_medium = $16, join_medium_other = $17, age = $18,
-         notes = $19, pincode = $20
-       WHERE id = $21`,
+         interest = $15, interest_other = $16, join_medium = $17, join_medium_other = $18, age = $19,
+         notes = $20, pincode = $21
+       WHERE id = $22`,
       [
         record.name, record.dob || null, record.gender || null, record.phone,
         record.whatsapp || null, record.email || null, record.location,
         record.locationOther || null, record.houseNumber || null, record.society || null,
         record.landmark || null, record.address || null, record.education || null,
-        record.occupation || null, record.interest || null, record.joinMedium || null,
-        record.joinMediumOther || null, record.age || null, record.notes || null,
-        record.pincode || null, id,
+        record.occupation || null, record.interest || null, record.interestOther || null,
+        record.joinMedium || null, record.joinMediumOther || null, record.age || null,
+        record.notes || null, record.pincode || null, id,
       ]
     );
   }

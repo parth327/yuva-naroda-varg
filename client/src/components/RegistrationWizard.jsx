@@ -13,14 +13,14 @@ const STORAGE_KEY = 'ys-register-draft-v1';
 const EMPTY_FORM = {
   name: '', age: '', education: '', phone: '', whatsapp: '', email: '',
   location: '', locationOther: '', pincode: '', houseNumber: '', society: '', landmark: '',
-  interest: '', joinMedium: '', joinMediumOther: '', notes: '',
+  interest: '', interestOther: '', joinMedium: '', joinMediumOther: '', notes: '',
 };
 
 const STEP_FIELDS = [
   ['name', 'age', 'education'],
   ['phone', 'whatsapp', 'email'],
   ['location', 'locationOther', 'pincode', 'houseNumber', 'society', 'landmark'],
-  ['interest', 'joinMedium', 'joinMediumOther'],
+  ['interest', 'interestOther', 'joinMedium', 'joinMediumOther'],
   ['notes'],
 ];
 
@@ -29,8 +29,8 @@ const REQUIRED = ['name', 'age', 'education', 'phone', 'email', 'location', 'pin
 const FIELD_LABELS = {
   name: 'lbl-name', age: 'lbl-age', education: 'lbl-education', phone: 'lbl-phone',
   email: 'lbl-email', location: 'lbl-location', locationOther: 'lbl-location-other',
-  pincode: 'lbl-pincode', interest: 'lbl-interest', joinMedium: 'lbl-joinMedium',
-  joinMediumOther: 'lbl-joinMedium-other',
+  pincode: 'lbl-pincode', interest: 'lbl-interest', interestOther: 'lbl-interest-other',
+  joinMedium: 'lbl-joinMedium', joinMediumOther: 'lbl-joinMedium-other',
 };
 
 const slideVariants = {
@@ -120,6 +120,7 @@ export default function RegistrationWizard() {
   function fieldError(field) {
     const v = String(form[field] || '').trim();
     if (field === 'locationOther') return form.location === OTHER_VALUE && !v;
+    if (field === 'interestOther') return form.interest === OTHER_VALUE && !v;
     if (field === 'joinMediumOther') return form.joinMedium === OTHER_VALUE && !v;
     if (!REQUIRED.includes(field)) return false;
     if (!v) return true;
@@ -180,10 +181,12 @@ export default function RegistrationWizard() {
 
   const totalRequired = STEP_FIELDS.flat().filter((f) => REQUIRED.includes(f) ||
     (f === 'locationOther' && form.location === OTHER_VALUE) ||
+    (f === 'interestOther' && form.interest === OTHER_VALUE) ||
     (f === 'joinMediumOther' && form.joinMedium === OTHER_VALUE)).length;
   const filledRequired = STEP_FIELDS.flat().filter((f) => {
     const isReq = REQUIRED.includes(f) ||
       (f === 'locationOther' && form.location === OTHER_VALUE) ||
+      (f === 'interestOther' && form.interest === OTHER_VALUE) ||
       (f === 'joinMediumOther' && form.joinMedium === OTHER_VALUE);
     return isReq && String(form[f] || '').trim();
   }).length;
@@ -316,6 +319,12 @@ export default function RegistrationWizard() {
                     {INTEREST_OPTIONS.map((opt) => <option key={opt} value={opt}>{labelFor(opt, 'interest')}</option>)}
                   </select>
                 </div>
+                {form.interest === OTHER_VALUE && (
+                  <div className="field full">
+                    <label>{t('lbl-interest-other')} <span className="req">*</span></label>
+                    <input className={errors.interestOther ? 'field-error' : ''} value={form.interestOther} onChange={(e) => update('interestOther', e.target.value)} placeholder={t('ph-interest-other')} />
+                  </div>
+                )}
                 <div className="field full">
                   <label>{t('lbl-joinMedium')} <span className="req">*</span></label>
                   <select className={errors.joinMedium ? 'field-error' : ''} value={form.joinMedium} onChange={(e) => update('joinMedium', e.target.value)}>
@@ -335,7 +344,6 @@ export default function RegistrationWizard() {
             {step === 4 && (
               <div className="form-grid">
                 <div className="field full">
-                  <label>{t('lbl-rss-question')}</label>
                   <textarea rows={3} maxLength={500} value={form.notes} onChange={(e) => update('notes', e.target.value)} placeholder={t('ph-rss-question')} />
                   <small className="field-hint">{form.notes.length}/500</small>
                 </div>
@@ -348,7 +356,7 @@ export default function RegistrationWizard() {
                     <div><strong>{t('lbl-phone')}:</strong> {form.phone || '—'}</div>
                     <div><strong>{t('lbl-email')}:</strong> {form.email || '—'}</div>
                     <div><strong>{t('lbl-location')}:</strong> {form.location === OTHER_VALUE ? form.locationOther : labelFor(form.location, 'location') || '—'}</div>
-                    <div><strong>{t('lbl-interest')}:</strong> {labelFor(form.interest, 'interest') || '—'}</div>
+                    <div><strong>{t('lbl-interest')}:</strong> {(form.interest === OTHER_VALUE ? form.interestOther : labelFor(form.interest, 'interest')) || '—'}</div>
                   </div>
                 </div>
               </div>

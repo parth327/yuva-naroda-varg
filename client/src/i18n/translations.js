@@ -76,11 +76,12 @@ export const translations = {
     'ph-landmark': 'નજીકનું જાણીતું સ્થળ',
 
     'lbl-interest': '✨ રુચિનો વિષય',
+    'lbl-interest-other': '✍️ અન્ય',
+    'ph-interest-other': 'કૃપા કરીને જણાવો',
     'lbl-joinMedium': '🤝 કયા માધ્યમથી યુવા પ્રારંભિક વર્ગ માં જોડાવાના છો?',
     'lbl-joinMedium-other': '✍️ અન્ય',
     'ph-joinMedium-other': 'કૃપા કરીને જણાવો',
 
-    'lbl-rss-question': '💬 તમારા મનમાં સંઘ કે સંઘના કાર્ય વિશે જિજ્ઞાસા હોય તો આપ અહીંયા લખી શકો છો તમારા પ્રશ્નનો પ્રત્યુતર યુવા પ્રારંભિક વર્ગમાં અધિકારી દ્વારા મળશે.',
     'ph-rss-question': 'તમારો પ્રશ્ન અહીં લખો... (વૈકલ્પિક)',
 
     'btn-submit': 'સબમિટ કરો',
@@ -211,11 +212,12 @@ export const translations = {
     'ph-landmark': 'Nearest well-known place',
 
     'lbl-interest': '✨ Area of Interest',
+    'lbl-interest-other': '✍️ Other',
+    'ph-interest-other': 'Please specify',
     'lbl-joinMedium': '🤝 Through which medium will you join Yuva Prarambhik Varg?',
     'lbl-joinMedium-other': '✍️ Other',
     'ph-joinMedium-other': 'Please specify',
 
-    'lbl-rss-question': '💬 If you have any curiosity about the Sangh or its work, write it here. You will get a reply from an official at Yuva Prarambhik Varg.',
     'ph-rss-question': 'Write your question here... (optional)',
 
     'btn-submit': 'Submit',
@@ -285,8 +287,8 @@ export const optionLabels = {
     en: { 'કૃષ્ણા નગર': 'Krishna Nagar', 'કુબેરનગર': 'Kubernagar', 'સૈજપુર': 'Saijpur', 'સરદારનગર': 'Sardarnagar', 'નરોડા': 'Naroda', 'હરિદર્શન': 'Haridarshan', 'અન્ય': 'Other' },
   },
   interest: {
-    gu: { 'સેવા': 'સેવા', 'પર્યાવરણ': 'પર્યાવરણ', 'વાંચન': 'વાંચન', 'લેખન': 'લેખન', 'વક્તા': 'વક્તા', 'રમત': 'રમત' },
-    en: { 'સેવા': 'Seva', 'પર્યાવરણ': 'Environment', 'વાંચન': 'Reading', 'લેખન': 'Writing', 'વક્તા': 'Public Speaking', 'રમત': 'Sports' },
+    gu: { 'સેવા': 'સેવા', 'પર્યાવરણ': 'પર્યાવરણ', 'વાંચન': 'વાંચન', 'લેખન': 'લેખન', 'વક્તા': 'વક્તા', 'રમત': 'રમત', 'અન્ય': 'અન્ય' },
+    en: { 'સેવા': 'Seva', 'પર્યાવરણ': 'Environment', 'વાંચન': 'Reading', 'લેખન': 'Writing', 'વક્તા': 'Public Speaking', 'રમત': 'Sports', 'અન્ય': 'Other' },
   },
   joinMedium: {
     gu: { 'શાખા': 'શાખા', 'સાપ્તાહિક મિલન': 'સાપ્તાહિક મિલન', 'અન્ય': 'અન્ય' },
@@ -295,6 +297,6 @@ export const optionLabels = {
 };
 
 export const LOCATION_OPTIONS = ['કૃષ્ણા નગર', 'કુબેરનગર', 'સૈજપુર', 'સરદારનગર', 'નરોડા', 'હરિદર્શન', 'અન્ય'];
-export const INTEREST_OPTIONS = ['સેવા', 'પર્યાવરણ', 'વાંચન', 'લેખન', 'વક્તા', 'રમત'];
+export const INTEREST_OPTIONS = ['સેવા', 'પર્યાવરણ', 'વાંચન', 'લેખન', 'વક્તા', 'રમત', 'અન્ય'];
 export const JOIN_MEDIUM_OPTIONS = ['શાખા', 'સાપ્તાહિક મિલન', 'અન્ય'];
 export const OTHER_VALUE = 'અન્ય';

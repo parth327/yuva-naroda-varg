@@ -131,6 +131,12 @@ export default function RecordEditPage() {
               {filterOptions.interests.map((i) => <option key={i} value={i}>{i}</option>)}
             </select>
           </div>
+          {form.interest === OTHER_VALUE && (
+            <div className="field">
+              <label>{t('lbl-interest-other')}</label>
+              <input value={form.interestOther || ''} onChange={(e) => update('interestOther', e.target.value)} />
+            </div>
+          )}
           <div className="field">
             <label>{t('lbl-joinMedium')}</label>
             <select value={form.joinMedium || ''} onChange={(e) => update('joinMedium', e.target.value)}>

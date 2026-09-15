@@ -28,7 +28,7 @@ router.post('/register', express.json(), async (req, res, next) => {
     const {
       name, dob, gender, phone, whatsapp, email, location, locationOther, address,
       houseNumber, society, landmark, education, occupation, notes, pincode,
-      interest, joinMedium, joinMediumOther, age,
+      interest, interestOther, joinMedium, joinMediumOther, age,
     } = req.body || {};
 
     const settings = await db.getSettings();
@@ -43,6 +43,7 @@ router.post('/register', express.json(), async (req, res, next) => {
     if (location === 'અન્ય' && (!locationOther || !locationOther.trim())) missing.push('locationOther');
     if (!education || !education.trim()) missing.push('education');
     if (!interest || !interest.trim()) missing.push('interest');
+    if (interest === 'અન્ય' && (!interestOther || !interestOther.trim())) missing.push('interestOther');
     if (!joinMedium || !joinMedium.trim()) missing.push('joinMedium');
     if (joinMedium === 'અન્ય' && (!joinMediumOther || !joinMediumOther.trim())) missing.push('joinMediumOther');
 
@@ -75,6 +76,7 @@ router.post('/register', express.json(), async (req, res, next) => {
       education: (education || '').trim(),
       occupation: (occupation || '').trim(),
       interest: (interest || '').trim(),
+      interestOther: interest === 'અન્ય' ? (interestOther || '').trim() : '',
       joinMedium: (joinMedium || '').trim(),
       joinMediumOther: joinMedium === 'અન્ય' ? (joinMediumOther || '').trim() : '',
       age: ageNum,

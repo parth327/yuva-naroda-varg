@@ -6,7 +6,7 @@
 // (views/register.ejs) so admins can filter on exactly what users could pick.
 const FILTER_OPTIONS = {
   locations: ['કૃષ્ણા નગર', 'કુબેરનગર', 'સૈજપુર', 'સરદારનગર', 'નરોડા', 'હરિદર્શન', 'અન્ય'],
-  interests: ['સેવા', 'પર્યાવરણ', 'વાંચન', 'લેખન', 'વક્તા', 'રમત'],
+  interests: ['સેવા', 'પર્યાવરણ', 'વાંચન', 'લેખન', 'વક્તા', 'રમત', 'અન્ય'],
   joinMediums: ['શાખા', 'સાપ્તાહિક મિલન', 'અન્ય'],
   genders: ['Male', 'Female', 'Other'],
 };
